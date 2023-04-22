@@ -79,9 +79,9 @@ void setup() {
 
   dt = (BLOQUEO_TAREA_LOOPCONTR_MS / 1000.0);
   dt2 = (BLOQUEO_TAREA_LOOPCONTR_MS / 1000.0);
-  Kp = Kp2=  0.1;
-  Ki = Ki2= 0.5;
-  Kd = Kd2 = 0.00011;
+  Kp = Kp2=  0.05;
+  Ki = Ki2= 0.3;
+  Kd = Kd2 = 0.00033;
   N = N2 = 4;
   
   

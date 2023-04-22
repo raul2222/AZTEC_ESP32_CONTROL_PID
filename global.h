@@ -8,7 +8,7 @@
 #define BLOQUEO_TAREA_LOOPCONTR_MS 10
 #define BLOQUEO_TAREA_MEDIDA_MS 200
 
-#define AUTO_STOP_INTERVAL 2000
+#define AUTO_STOP_INTERVAL 1100
 long lastMotorCommand = 0;
 
 int LED_PWM = 18;

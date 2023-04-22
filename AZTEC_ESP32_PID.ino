@@ -249,20 +249,15 @@ void loop() {
         if(str.indexOf("N") == 0 or str.indexOf("n") == 0){
             str.replace("N","");str.replace("n","");str.replace(",",".");
             N =N2 = str.toFloat();  
-        }           
+        }          
 
     }
     delay(1);
     if (millis() > (AUTO_STOP_INTERVAL + lastMotorCommand) ){
-          //setpoint = 0;
-          //setpoint2 = 0;
+        setpoint = 0;
+        setpoint2 = 0;
     }
+*/
 
-
-    */
+    
 }
-
-
-
-
-
