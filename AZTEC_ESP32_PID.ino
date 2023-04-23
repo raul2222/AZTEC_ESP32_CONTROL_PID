@@ -77,6 +77,30 @@ void task_loopcontr(void* arg) {
   }
 }
 
+void IRAM_ATTR ISR_enc() {
+  // Lee las salidas del Encoder    
+  uint8_t a1 = digitalRead(A_enc_pin);
+  uint8_t b1 = digitalRead(B_enc_pin);
+  uint8_t r;
+  // Procesa los datos    // r=2*a+b;
+  if(a1 == 0 && b1 == 0){
+      r = 1;
+  }
+  else if(a1 == 0 && b1 == 1){
+      r = 2;
+  }
+  else if(a1 == 1 && b1 == 0){
+      r = 3;
+  }
+  else if(a1 == 1 && b1 == 1){
+      r = 4;
+  }
+  // Enviar los bytes a la cola 
+  if (xQueueSendFromISR( cola_enc , &r ,NULL) != pdTRUE)
+  {
+      printf("Error de escritura en la cola cola_enc \n");
+  }
+}
 
 void excita_motor(float v_motor){
     // Obtención de la dirección
@@ -89,11 +113,11 @@ void excita_motor(float v_motor){
       v_motor = 0;
     }
     if(v_motor > 0){    
-        digitalWrite(PWM_f, 0); // el pin de direccion
+        digitalWrite(PWM_f, 1); // el pin de direccion
     }
     if(v_motor < 0){   
         v_motor = abs(v_motor); // valor en positivo 
-        digitalWrite(PWM_f,1);
+        digitalWrite(PWM_f,0);
     }
     direccion_ant = direccion;
   	// Calcula y limita el valor de configuración del PWM
@@ -172,7 +196,7 @@ void loop() {
   start_stop = 0;
   delay(900000);
   */
-/*
+
 
     if(Serial.available() > 0){
 
@@ -183,18 +207,18 @@ void loop() {
             Serial.print(ang_cnt); 
             Serial.print(" "); 
             Serial.println(ang_cnt2);
-            
+            Serial.flush();
         }
         if (str.indexOf("u") == 0 ) {
             Serial.println("OK"); 
-           
+            Serial.flush();
         }
-        if (str.indexOf("c") == 0 ) {
+        if (str.indexOf("r") == 0 ) {
             ang_cnt=0;
             ang_cnt2=0;
             //reset contador encoder
             Serial.println("OK"); 
-  
+            Serial.flush();
         } 
         if (str.indexOf("m") == 0 ) {
             str.replace("m", "");
@@ -207,10 +231,11 @@ void loop() {
             if (second != 0) ACTIVA_P1C_MED_ANG2 =0;
             setpoint = firstValue.toFloat();
             setpoint2 = second.toFloat();
-            Serial.println("OK"); 
+            Serial.println("OK"); Serial.flush();
 
         }
-        if (str.indexOf("r") == 0 ) {
+        
+        if (str.indexOf("wr") == 0 ) {
             str.replace("r", "");
             if (ACTIVA_P1C_MED_ANG2 == 0){
               ACTIVA_P1C_MED_ANG2 = 1;
@@ -222,7 +247,7 @@ void loop() {
             clean();  
             setpoint2 = str.toFloat();
         }
-        if (str.indexOf("l") == 0 ) {
+        if (str.indexOf("wl") == 0 ) {
             str.replace("l", "");
             if (ACTIVA_P1C_MED_ANG == 0){
               ACTIVA_P1C_MED_ANG = 1;
@@ -233,7 +258,7 @@ void loop() {
             clean();   
             setpoint = str.toFloat();
         }
-
+/*
         if(str.indexOf("P") == 0 or str.indexOf("p") == 0  ){
             str.replace("P",""); str.replace("p","");str.replace(",",".");
             Kp =Kp2 = str.toFloat();
@@ -249,15 +274,15 @@ void loop() {
         if(str.indexOf("N") == 0 or str.indexOf("n") == 0){
             str.replace("N","");str.replace("n","");str.replace(",",".");
             N =N2 = str.toFloat();  
-        }          
+        }          */
 
     }
-    delay(1);
+    
     if (millis() > (AUTO_STOP_INTERVAL + lastMotorCommand) ){
         setpoint = 0;
         setpoint2 = 0;
     }
-*/
+
 
     
 }

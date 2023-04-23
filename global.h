@@ -8,7 +8,7 @@
 #define BLOQUEO_TAREA_LOOPCONTR_MS 10
 #define BLOQUEO_TAREA_MEDIDA_MS 200
 
-#define AUTO_STOP_INTERVAL 1100
+#define AUTO_STOP_INTERVAL 2100
 long lastMotorCommand = 0;
 
 int LED_PWM = 18;
@@ -112,19 +112,33 @@ int16_t adc0 = 0;
 
 
 // Pines driver motor ///////////////A/////////////////////////////////////////////////////
-// RIGHT
+
+
+const uint8_t PWM_Pin2 = 25; //
+const uint8_t PWM_f2 = 27; //  // direccion
+const uint8_t A_enc_pin2 = 35;
+const uint8_t B_enc_pin2 = 34;
+const uint8_t PWM_en2 = 32;
+
+const uint8_t PWM_Pin = 26; // 
+const uint8_t PWM_f = 14; 
+const uint8_t A_enc_pin = 36;
+const uint8_t B_enc_pin = 39;
+const uint8_t PWM_en = 33;
+
+/*
 const uint8_t PWM_Pin = 25; // 
 const uint8_t PWM_f = 27; 
 const uint8_t A_enc_pin = 35;
 const uint8_t B_enc_pin = 34;
 const uint8_t PWM_en = 32; 
-
-//LEFT
+*/
+/*
 const uint8_t PWM_Pin2 = 26; //
 const uint8_t PWM_f2 = 14; //  // direccion
 const uint8_t A_enc_pin2 = 36;
 const uint8_t B_enc_pin2 = 39;
-const uint8_t PWM_en2 = 33; 
+const uint8_t PWM_en2 = 33;*/ 
 // Voltaje maximo motor ////////////////////////////////////////////////////////////////////
 float SupplyVolt = 12.0;
 
@@ -154,6 +168,8 @@ void excita_motor2(float v_motor);
 void task_serial(void* arg);
 void task_loopcontr(void* arg);
 void task_enc(void* arg);
+void IRAM_ATTR ISR_enc();
+void IRAM_ATTR ISR_enc2();
 
 // TABLA VELOCIDAD-VOLTAJE P1D
 #define LONG_LUT 12

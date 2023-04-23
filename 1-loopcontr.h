@@ -63,6 +63,30 @@ void task_loopcontr2(void* arg) {
   }
 }
 
+void IRAM_ATTR ISR_enc2() {
+  // Lee las salidas del Encoder    
+  uint8_t a2 = digitalRead(A_enc_pin2);
+  uint8_t b2 = digitalRead(B_enc_pin2);
+  uint8_t r2;
+  
+  if(a2 == 0 && b2 == 0){
+      r2 = 1;
+  }
+  else if(a2 == 0 && b2 == 1){
+      r2 = 2;
+  }
+  else if(a2 == 1 && b2 == 0){
+      r2 = 3;
+  }
+  else if(a2 == 1 && b2 == 1){
+      r2 = 4;
+  }
+  // Enviar los bytes a la cola 
+  if (xQueueSendFromISR( cola_enc2 , &r2 ,NULL) != pdTRUE)
+  {
+      printf("Error de escritura en la cola cola_enc2 \n");
+  }
+}
 
 void excita_motor2(float v_motor){
     // Obtención de la dirección
@@ -75,11 +99,11 @@ void excita_motor2(float v_motor){
       v_motor = 0;
     }
     if(v_motor > 0){    //Serial.println("Hacia adelante");
-        digitalWrite(PWM_f2, 1); // el pin de direccion
+        digitalWrite(PWM_f2, 0); // el pin de direccion
     }
     if(v_motor < 0){    //("Hacia atras");
         v_motor = abs(v_motor); // valor en positivo del voltaje el cambio de direccion lo hacen las variables
-        digitalWrite(PWM_f2,0);
+        digitalWrite(PWM_f2,1);
     }
     direccion_ant2 = direccion2;
   	// Calcula y limita el valor de configuración del PWM

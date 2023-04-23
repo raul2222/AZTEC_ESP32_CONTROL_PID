@@ -17,12 +17,12 @@ void task_serial(void* arg)
             Serial.print(cnt_left); 
             Serial.print(" "); 
             Serial.println(cnt_right);
-            Serial.flush();
+            
         }
 
         if (str.indexOf("u") == 0 ) {
             Serial.println("OK"); 
-            Serial.flush();
+            
         }
           
         if (str.indexOf("r") == 0 ) {
@@ -30,7 +30,7 @@ void task_serial(void* arg)
             ang_cnt2=0;
             //reset contador encoder
             Serial.println("OK"); 
-            Serial.flush();
+            
         }
                 
         if (str.indexOf("m") == 0 ) {
@@ -43,7 +43,7 @@ void task_serial(void* arg)
             setpoint = firstValue.toFloat();
             setpoint2 = second.toFloat();
             Serial.println("OK"); 
-            Serial.flush();
+            
 
 
         }
@@ -51,10 +51,10 @@ void task_serial(void* arg)
 
     }
     if (millis() > (AUTO_STOP_INTERVAL + lastMotorCommand) ){
-          //setpoint = 0;
-          //setpoint2 = 0;
+          setpoint = 0;
+          setpoint2 = 0;
     }
-    vTaskDelay(5 / portTICK_PERIOD_MS);
+    vTaskDelay(1 / portTICK_PERIOD_MS);
     
   }
 }

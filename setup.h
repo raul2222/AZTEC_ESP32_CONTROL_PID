@@ -5,7 +5,7 @@ SET UP -------------------------------------------------------------------------
 void setup() {
   // Configuracion puerto serie
   config_sp();
-  digitalRead(A_enc_pin);
+  
 
   // Configuracion PWM
   config_PWM();
@@ -59,14 +59,14 @@ void setup() {
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
   }
-*/
+
 
    // Crear la tarea task_medidas
   if(xTaskCreatePinnedToCore( task_medidas , "task_medidas", 2048, NULL,1, NULL,0) != pdPASS){
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
   }
-
+*/
  /*if(xTaskCreatePinnedToCore( task_serial , "task_serial", 1024, NULL, 5, NULL, 1) != pdPASS){
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
@@ -79,9 +79,10 @@ void setup() {
 
   dt = (BLOQUEO_TAREA_LOOPCONTR_MS / 1000.0);
   dt2 = (BLOQUEO_TAREA_LOOPCONTR_MS / 1000.0);
-  Kp = Kp2=  0.05;
-  Ki = Ki2= 0.3;
-  Kd = Kd2 = 0.00033;
+  
+  Kp = Kp2=  0.1;
+  Ki = Ki2= 0.5;
+  Kd = Kd2 = 0.00011;
   N = N2 = 4;
   
   
@@ -104,55 +105,9 @@ void setup() {
 /* 
  Rutina de atención a interrupción ISC_enc --------------------------------------------
 */
-void IRAM_ATTR ISR_enc() {
-  // Lee las salidas del Encoder    
-  uint8_t a = digitalRead(A_enc_pin);
-  uint8_t b = digitalRead(B_enc_pin);
-  uint8_t r;
-  // Procesa los datos    // r=2*a+b;
-  if(a == 0 && b == 0){
-      r = 1;
-  }
-  else if(a == 0 && b == 1){
-      r = 2;
-  }
-  else if(a == 1 && b == 0){
-      r = 3;
-  }
-  else if(a == 1 && b == 1){
-      r = 4;
-  }
-  // Enviar los bytes a la cola 
-  if (xQueueSendFromISR( cola_enc , &r ,NULL) != pdTRUE)
-  {
-      printf("Error de escritura en la cola cola_enc \n");
-  }
-}
 
-void IRAM_ATTR ISR_enc2() {
-  // Lee las salidas del Encoder    
-  uint8_t a = digitalRead(A_enc_pin2);
-  uint8_t b = digitalRead(B_enc_pin2);
-  uint8_t r2;
-  
-  if(a == 0 && b == 0){
-      r2 = 1;
-  }
-  else if(a == 0 && b == 1){
-      r2 = 2;
-  }
-  else if(a == 1 && b == 0){
-      r2 = 3;
-  }
-  else if(a == 1 && b == 1){
-      r2 = 4;
-  }
-  // Enviar los bytes a la cola 
-  if (xQueueSendFromISR( cola_enc2 , &r2 ,NULL) != pdTRUE)
-  {
-      printf("Error de escritura en la cola cola_enc \n");
-  }
-}
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Funcion configuracion del adc
@@ -173,10 +128,10 @@ void config_ADC(){
 
 void config_enc(){
     // Configuracion de pines del encoder
-    pinMode(A_enc_pin, INPUT);
-    pinMode(B_enc_pin, INPUT);
-    pinMode(A_enc_pin2, INPUT);
-    pinMode(B_enc_pin2, INPUT);
+    pinMode(A_enc_pin, INPUT_PULLUP);
+    pinMode(B_enc_pin, INPUT_PULLUP);
+    pinMode(A_enc_pin2, INPUT_PULLUP);
+    pinMode(B_enc_pin2, INPUT_PULLUP);
     // Configuracion interrupcion
     attachInterrupt(A_enc_pin, ISR_enc, CHANGE);
     attachInterrupt(B_enc_pin, ISR_enc, CHANGE);
@@ -204,7 +159,7 @@ void config_PWM(){
 // Funcion configuracion del puerto serie
 ////////////////////////////////////////////////////////////////////////////////////
 void config_sp(){
-  Serial.begin(115200);
+  Serial.begin(57600);
   //Serial2.begin(115200);
   while (!Serial) {}
 }  
