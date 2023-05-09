@@ -206,7 +206,13 @@ void loop() {
         if (str.indexOf("e") == 0 ) {
             Serial.print(ang_cnt); 
             Serial.print(" "); 
-            Serial.println(ang_cnt2);
+            Serial.print(ang_cnt2);
+            
+            Serial.print(" "); 
+            Serial.print(v_medida);
+            
+            Serial.print(" "); 
+            Serial.println(v_medida2);
             Serial.flush();
         }
         if (str.indexOf("u") == 0 ) {
@@ -231,7 +237,8 @@ void loop() {
             if (second != 0) ACTIVA_P1C_MED_ANG2 =0;
             setpoint = firstValue.toFloat();
             setpoint2 = second.toFloat();
-            Serial.println("OK"); Serial.flush();
+            Serial.println("OK"); 
+            Serial.flush();
 
         }
         
@@ -279,8 +286,8 @@ void loop() {
     }
     
     if (millis() > (AUTO_STOP_INTERVAL + lastMotorCommand) ){
-        //setpoint = 0;
-        //setpoint2 = 0;
+        setpoint = 0;
+        setpoint2 = 0;
     }
 
 
