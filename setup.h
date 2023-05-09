@@ -36,13 +36,14 @@ void setup() {
       Serial.println("Error en creacion tarea task_enc");
       exit(-1);
   }
+  /*
 
   // Crear la tarea task_config
   if(xTaskCreatePinnedToCore( task_config , "task_config", 2048, NULL, 1, NULL,0) != pdPASS){
       Serial.println("Error en creacion tarea task_config");
       exit(-1);
   }
-
+*/
   // Crear la tarea task_loopcontr
   if(xTaskCreatePinnedToCore( task_loopcontr , "task_loopcontr", 4096, NULL, 2, NULL,1) != pdPASS){
       Serial.println("Error en creacion tarea task_loopcontr");
@@ -59,14 +60,14 @@ void setup() {
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
   }
-
+*/
 
    // Crear la tarea task_medidas
   if(xTaskCreatePinnedToCore( task_medidas , "task_medidas", 2048, NULL,1, NULL,0) != pdPASS){
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
   }
-*/
+
  /*if(xTaskCreatePinnedToCore( task_serial , "task_serial", 1024, NULL, 5, NULL, 1) != pdPASS){
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
@@ -159,7 +160,7 @@ void config_PWM(){
 // Funcion configuracion del puerto serie
 ////////////////////////////////////////////////////////////////////////////////////
 void config_sp(){
-  Serial.begin(57600);
+  Serial.begin(115200);
   //Serial2.begin(115200);
   while (!Serial) {}
 }  

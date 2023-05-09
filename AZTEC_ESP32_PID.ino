@@ -236,7 +236,7 @@ void loop() {
         }
         
         if (str.indexOf("wr") == 0 ) {
-            str.replace("r", "");
+            str.replace("wr", "");
             if (ACTIVA_P1C_MED_ANG2 == 0){
               ACTIVA_P1C_MED_ANG2 = 1;
               ang_cnt2=0;
@@ -248,7 +248,7 @@ void loop() {
             setpoint2 = str.toFloat();
         }
         if (str.indexOf("wl") == 0 ) {
-            str.replace("l", "");
+            str.replace("wl", "");
             if (ACTIVA_P1C_MED_ANG == 0){
               ACTIVA_P1C_MED_ANG = 1;
               ang_cnt=0;
@@ -279,8 +279,8 @@ void loop() {
     }
     
     if (millis() > (AUTO_STOP_INTERVAL + lastMotorCommand) ){
-        setpoint = 0;
-        setpoint2 = 0;
+        //setpoint = 0;
+        //setpoint2 = 0;
     }
 
 

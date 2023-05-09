@@ -122,8 +122,8 @@ const uint8_t PWM_en2 = 32;
 
 const uint8_t PWM_Pin = 26; // 
 const uint8_t PWM_f = 14; 
-const uint8_t A_enc_pin = 36;
-const uint8_t B_enc_pin = 39;
+const uint8_t A_enc_pin = 22;
+const uint8_t B_enc_pin = 21;
 const uint8_t PWM_en = 33;
 
 /*
