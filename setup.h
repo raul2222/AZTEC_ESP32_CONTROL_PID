@@ -61,13 +61,13 @@ void setup() {
       exit(-1);
   }
 */
-
+/*
    // Crear la tarea task_medidas
   if(xTaskCreatePinnedToCore( task_medidas , "task_medidas", 2048, NULL,1, NULL,0) != pdPASS){
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
   }
-
+*/
  /*if(xTaskCreatePinnedToCore( task_serial , "task_serial", 1024, NULL, 5, NULL, 1) != pdPASS){
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
