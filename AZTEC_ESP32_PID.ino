@@ -175,28 +175,6 @@ void task_enc(void* arg) {
 
 void loop() {
 /*
-  delay(5000);
-  K_p = 1.8;
-
-  T_i = 0.4;
-  //T_d = 0;
-  //K_p = 1.9;
-  //T_i = 0.7;
-  T_d = 0.038;
-  Tcb = 15;
-  
-  fd_bool = 1;
-  alpha = 2;
-  ACTIVA_P1C_MED_ANG = 0;
-  ref_val = 4;
-  start_stop = 1;
-  delay(3600);
-  //ref_val = 360;
-  //delay(3600);
-  start_stop = 0;
-  delay(900000);
-  */
-
 
     if(Serial.available() > 0){
 
@@ -265,7 +243,7 @@ void loop() {
             clean();   
             setpoint = str.toFloat();
         }
-/*
+
         if(str.indexOf("P") == 0 or str.indexOf("p") == 0  ){
             str.replace("P",""); str.replace("p","");str.replace(",",".");
             Kp =Kp2 = str.toFloat();
@@ -281,7 +259,7 @@ void loop() {
         if(str.indexOf("N") == 0 or str.indexOf("n") == 0){
             str.replace("N","");str.replace("n","");str.replace(",",".");
             N =N2 = str.toFloat();  
-        }          */
+        }          
 
     }
     
@@ -289,7 +267,7 @@ void loop() {
         setpoint = 0;
         setpoint2 = 0;
     }
-
+*/
 
     
 }

@@ -68,10 +68,10 @@ void setup() {
       exit(-1);
   }
 */
- /*if(xTaskCreatePinnedToCore( task_serial , "task_serial", 1024, NULL, 5, NULL, 1) != pdPASS){
+ if(xTaskCreatePinnedToCore( task_serial , "task_serial", 2048, NULL, 1, NULL, 1) != pdPASS){
       Serial.println("Error en creacion tarea task_medidas");
       exit(-1);
- }*/
+ }
 
 
   // Configuracion del encoder

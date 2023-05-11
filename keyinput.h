@@ -3,6 +3,7 @@
 
 void task_serial(void* arg)
 {
+  /*
   int32_t cnt_left= 0;
   int32_t cnt_right = 0;
   while (1) {
@@ -54,9 +55,104 @@ void task_serial(void* arg)
           setpoint = 0;
           setpoint2 = 0;
     }
-    vTaskDelay(1 / portTICK_PERIOD_MS);
+    
     
   }
+
+*/
+    if(Serial.available() > 0){
+
+        lastMotorCommand = millis();
+        String str = Serial.readStringUntil('\r');
+        //Serial2.println(str);
+        if (str.indexOf("e") == 0 ) {
+            Serial.print(ang_cnt); 
+            Serial.print(" "); 
+            Serial.print(ang_cnt2);
+            
+            Serial.print(" "); 
+            Serial.print(v_medida);
+            
+            Serial.print(" "); 
+            Serial.println(v_medida2);
+            Serial.flush();
+        }
+        if (str.indexOf("u") == 0 ) {
+            Serial.println("OK"); 
+            Serial.flush();
+        }
+        if (str.indexOf("r") == 0 ) {
+            ang_cnt=0;
+            ang_cnt2=0;
+            //reset contador encoder
+            Serial.println("OK"); 
+            Serial.flush();
+        } 
+        if (str.indexOf("m") == 0 ) {
+            str.replace("m", "");
+            // ACTIVA_P1C_MED_ANG2 = 0;
+            // ACTIVA_P1C_MED_ANG = 0;
+            int i1 = str.indexOf(" ");
+            String firstValue = str.substring(0, i1);
+            if (firstValue != 0) ACTIVA_P1C_MED_ANG =0;
+            String second = str.substring(i1 + 1);
+            if (second != 0) ACTIVA_P1C_MED_ANG2 =0;
+            setpoint = firstValue.toFloat();
+            setpoint2 = second.toFloat();
+            Serial.println("OK"); 
+            Serial.flush();
+
+        }
+        
+        if (str.indexOf("wr") == 0 ) {
+            str.replace("wr", "");
+            if (ACTIVA_P1C_MED_ANG2 == 0){
+              ACTIVA_P1C_MED_ANG2 = 1;
+              ang_cnt2=0;
+            }
+            
+            volt_max = 6.0;
+            
+            clean();  
+            setpoint2 = str.toFloat();
+        }
+        if (str.indexOf("wl") == 0 ) {
+            str.replace("wl", "");
+            if (ACTIVA_P1C_MED_ANG == 0){
+              ACTIVA_P1C_MED_ANG = 1;
+              ang_cnt=0;
+            }
+            volt_max = 6.0;
+            
+            clean();   
+            setpoint = str.toFloat();
+        }
+
+        if(str.indexOf("P") == 0 or str.indexOf("p") == 0  ){
+            str.replace("P",""); str.replace("p","");str.replace(",",".");
+            Kp =Kp2 = str.toFloat();
+        }
+       if(str.indexOf("I") == 0 or str.indexOf("i") == 0){
+            str.replace("I","");str.replace("i","");str.replace(",",".");
+            Ki = Ki2 =  str.toFloat();  
+        }
+        if(str.indexOf("D") == 0 or str.indexOf("d") == 0){
+            str.replace("D","");str.replace("d","");str.replace(",",".");
+            Kd =Kd2 = str.toFloat();  
+        }            
+        if(str.indexOf("N") == 0 or str.indexOf("n") == 0){
+            str.replace("N","");str.replace("n","");str.replace(",",".");
+            N =N2 = str.toFloat();  
+        }          
+
+    }
+    
+    if (millis() > (AUTO_STOP_INTERVAL + lastMotorCommand) ){
+        setpoint = 0;
+        setpoint2 = 0;
+    }
+
+
 }
 
 
