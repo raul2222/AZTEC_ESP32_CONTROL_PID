@@ -48,6 +48,16 @@ void task_serial(void* arg)
             Serial.flush();
 
         }
+
+        if (str.indexOf("get") == 0 ) {
+
+            
+            Serial.print("P: "); Serial.println(Kp); 
+            Serial.print("I: "); Serial.println(Ki); 
+            Serial.print("D: "); Serial.println(Kd,6); 
+            Serial.print("N: "); Serial.println(N,6); 
+            Serial.flush();
+        } 
         
         if (str.indexOf("wr") == 0 ) {
             str.replace("wr", "");
