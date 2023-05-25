@@ -3,63 +3,8 @@
 
 void task_serial(void* arg)
 {
-  /*
-  int32_t cnt_left= 0;
-  int32_t cnt_right = 0;
-  while (1) {
-    cnt_left = ang_cnt;
-    cnt_right = ang_cnt2;
-    if(Serial.available() > 0){
+  while(1){
 
-       lastMotorCommand = millis();
-       String str = Serial.readStringUntil('\r');
-       Serial.println(str);
-       if (str.indexOf("e") == 0 ) {
-            Serial.print(cnt_left); 
-            Serial.print(" "); 
-            Serial.println(cnt_right);
-            
-        }
-
-        if (str.indexOf("u") == 0 ) {
-            Serial.println("OK"); 
-            
-        }
-          
-        if (str.indexOf("r") == 0 ) {
-            ang_cnt=0;
-            ang_cnt2=0;
-            //reset contador encoder
-            Serial.println("OK"); 
-            
-        }
-                
-        if (str.indexOf("m") == 0 ) {
-            //Serial.println(str);
-            str.replace("m", "");
-            int i1 = str.indexOf(" ");
-
-            String firstValue = str.substring(0, i1);
-            String second = str.substring(i1 + 1);
-            setpoint = firstValue.toFloat();
-            setpoint2 = second.toFloat();
-            Serial.println("OK"); 
-            
-
-
-        }
-          
-
-    }
-    if (millis() > (AUTO_STOP_INTERVAL + lastMotorCommand) ){
-          setpoint = 0;
-          setpoint2 = 0;
-    }
-    
-    
-  }
-
-*/
     if(Serial.available() > 0){
 
         lastMotorCommand = millis();
@@ -152,7 +97,8 @@ void task_serial(void* arg)
         setpoint2 = 0;
     }
 
-
+    vTaskDelay(1 / portTICK_PERIOD_MS);
+  } 
 }
 
 
